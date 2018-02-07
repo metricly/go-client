@@ -74,3 +74,20 @@ func TestSamplesTypeConversions(t *testing.T) {
 		}
 	}
 }
+
+func TestSampleMarshalJSON(t *testing.T) {
+	//given
+	test := struct {
+		MetricId string
+		Timestamp int64
+		Value float64
+	} {
+		MetricId: "metricId",
+		Timestamp: 1517873901000,
+		Value: 0.0,
+	}
+	sample, _ := NewSample(test.MetricId, test.Timestamp, test.Value)
+	//when
+	sjson, err := sample.MarshalJSON()
+	log.Println("marshaled sample json:", string(sjson), err)
+}

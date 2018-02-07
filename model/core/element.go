@@ -1,10 +1,9 @@
 package core
 
+import "encoding/json"
+
 type Element struct {
-	Id string
-	Name string
-	Type string
-	Location string
+	Id, Name, Type, Location string
 	attributes map[string]Attribute
 	tags map[string]Tag
 	relations map[string]Relation
@@ -12,9 +11,12 @@ type Element struct {
 	samples map[SampleKey]Sample
 }
 
-func NewElement(id string) Element {
+func NewElement(Id, Name, Type, Location string) Element {
 	e := Element{}
-	e.Id = id
+	e.Id = Id
+	e.Name = Name
+	e.Type = Type
+	e.Location = Location
 	e.attributes = map[string]Attribute{}
 	e.tags = map[string]Tag{}
 	e.relations = map[string]Relation{}
@@ -46,4 +48,40 @@ func (e *Element) AddSample(sample Sample) {
 		m.Id = sample.metricId
 		e.metrics[sample.metricId] = m
 	}
+}
+
+func (e *Element) Samples() []Sample {
+	samples := []Sample{}
+	for _, s := range e.samples {
+		samples = append(samples, s)
+	}
+	return samples
+}
+
+type ElementJSON struct {
+	Id, Name, Type, Location string
+	Samples []Sample
+}
+
+func (e Element) MarshalJSON() ([]byte, error) {
+	ejson := ElementJSON{}
+	ejson.Id = e.Id
+	ejson.Name = e.Name
+	ejson.Type = e.Type
+	ejson.Location = e.Location
+	ejson.Samples = e.Samples()
+
+	return json.Marshal(ejson)
+}
+
+func (e *Element) UnmarshalJSON(b []byte) error {
+	var ejson ElementJSON
+	if err := json.Unmarshal(b, &ejson); err != nil {
+		return err
+	}
+	*e = NewElement(ejson.Id, ejson.Name, ejson.Type, ejson.Location)
+	for _, sample := range ejson.Samples {
+		e.AddSample(sample)
+	}
+	return nil
 }

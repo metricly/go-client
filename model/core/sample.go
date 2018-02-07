@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 	"strings"
+	"encoding/json"
 )
 
 type Sample struct {
@@ -40,8 +41,8 @@ func (s *Sample) MetricId() string {
 	return s.metricId
 }
 
-func (s *Sample) Timestamp() Timestamp {
-	return s.timestamp
+func (s *Sample) Timestamp() int64 {
+	return int64(s.timestamp)
 }
 
 func (s *Sample) Val() float64 {
@@ -54,4 +55,28 @@ func (s *Sample) Key() SampleKey {
 
 func (s Sample) String() string {
 	return fmt.Sprintf("%s => %.3f @[%d]", s.metricId, s.val, s.timestamp)
+}
+
+type SampleJSON struct {
+	MetricId string
+	Timestamp int64
+	Val float64
+}
+
+func (s Sample) MarshalJSON() ([]byte, error) {
+	sjson := SampleJSON {
+		s.MetricId(),
+		s.Timestamp(),
+		s.Val(),
+	}
+	return json.Marshal(sjson)
+}
+
+func (s *Sample) UnmarshalJSON(b []byte) error {
+	var sjson SampleJSON
+	if err := json.Unmarshal(b, &sjson); err != nil {
+		return err
+	}
+	*s, _ = NewSample(sjson.MetricId, sjson.Timestamp, sjson.Val)
+	return nil
 }

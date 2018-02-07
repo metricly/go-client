@@ -10,7 +10,7 @@ func TestMetric(t *testing.T) {
 		Id: "cpu.percent",
 		Name: "CPU Percent",
 		Unit: "%",
-		Type: "SERVER",
+		Type: "COUNTER",
 		SparseDataStrategy: "NONE",
 	}
 	//when
