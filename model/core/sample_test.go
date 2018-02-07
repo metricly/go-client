@@ -6,6 +6,7 @@ import (
 )
 
 func TestSample(t *testing.T) {
+	//given
 	test := struct {
 		metricId string
 		timestamp int64
@@ -15,10 +16,12 @@ func TestSample(t *testing.T) {
 		timestamp: 1517873901000,
 		value: 0.0,
 	}
+	//when
 	sample, _ := NewSample(test.metricId, test.timestamp, test.value)
+	//then
 	log.Println(sample)
 	if sample.MetricId() != test.metricId {
-		t.Errorf("sample metricId expected: %s, actual:%s", test.metricId, sample.MetricId())
+		t.Errorf("sample metricId expected: %s, actual: %s", test.metricId, sample.MetricId())
 	}
 	if int64(sample.Timestamp()) != test.timestamp {
 		t.Errorf("sample timestamp expected: %d, actual: %d", test.timestamp, sample.Timestamp())
@@ -28,7 +31,18 @@ func TestSample(t *testing.T) {
 	}
 }
 
-func TestSamples(t *testing.T) {
+func TestSampleWithBlankMetricId(t *testing.T) {
+	//given & when
+	sample, err := NewSample("  ", 1517873901000, 0.0)
+	//then
+	log.Println(sample)
+	if err == nil {
+		t.Errorf("blank metric id should fail on sample %s", sample)
+	}
+}
+
+func TestSamplesTypeConversions(t *testing.T) {
+	//given
 	tests := map[string] struct {
 		metricId string
 		timestamp interface{}
@@ -48,7 +62,7 @@ func TestSamples(t *testing.T) {
 			valid: true,
 		},
 	}
-
+	//when & then
 	for name, test := range tests {
 		sample, err := NewSample(test.metricId, test.timestamp, test.value)
 		if err == nil && test.valid == true {

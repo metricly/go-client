@@ -11,8 +11,16 @@ type Sample struct {
 	val Number
 }
 
+type SampleKey struct {
+	metricId string
+	timestamp Timestamp
+}
+
 func NewSample(metricId string, timestamp interface{}, value interface{}) (Sample, error) {
 	var errors []string
+	if len(strings.TrimSpace(metricId)) == 0 {
+		errors = append(errors, "metricId can't be blank")
+	}
 	ts, timestampError := TimestampValue(timestamp)
 	if timestampError != nil {
 		errors = append(errors, timestampError.Error())
@@ -38,6 +46,10 @@ func (s *Sample) Timestamp() Timestamp {
 
 func (s *Sample) Val() float64 {
 	return float64(s.val)
+}
+
+func (s *Sample) Key() SampleKey {
+	return SampleKey{s.metricId, s.timestamp}
 }
 
 func (s Sample) String() string {
