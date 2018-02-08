@@ -11,7 +11,7 @@ func TestMetric(t *testing.T) {
 		Name: "CPU Percent",
 		Unit: "%",
 		Type: "COUNTER",
-		SparseDataStrategy: "NONE",
+		SparseDataStrategy: "None",
 	}
 	//when
 	m := NewMetric(test.Id, test.Name, test.Unit, test.Type, test.SparseDataStrategy, Tag{"env", "prod"})

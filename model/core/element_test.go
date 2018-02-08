@@ -25,7 +25,7 @@ func TestAddElementSampleAddingItsMetric(t *testing.T) {
 func TestAddElementSampleWontOverrideExistingMetric(t *testing.T) {
 	//given
 	element := NewElement("elementId", "Element Name", "SERVER", "use1a")
-	metric := NewMetric("metricId", "Metric Name", "bytes", "COUNTER", "NONE")
+	metric := NewMetric("metricId", "Metric Name", "bytes", "COUNTER", "None")
 	sample, _ := NewSample("metricId", time.Now(), 0.0)
 	//when
 	element.AddMetric(metric)
@@ -34,7 +34,7 @@ func TestAddElementSampleWontOverrideExistingMetric(t *testing.T) {
 	if len(element.metrics) != 1 {
 		t.Errorf("element should contain exactly 1 metric")
 	}
-	if m := element.metrics["metricId"]; m.Name != "Metric Name" || m.Unit != "bytes" || m.Type != "COUNTER" || m.SparseDataStrategy != "NONE" {
+	if m := element.metrics["metricId"]; m.Name != "Metric Name" || m.Unit != "bytes" || m.Type != "COUNTER" || m.SparseDataStrategy != "None" {
 		t.Errorf("element's existing metric should not be overriden by sample")
 	}
 }
@@ -42,7 +42,7 @@ func TestAddElementSampleWontOverrideExistingMetric(t *testing.T) {
 func TestElementMarshalJSON(t *testing.T) {
 	//given
 	element := NewElement("elementId", "Element Name", "SERVER", "use1a")
-	metric := NewMetric("metricId", "Metric Name", "bytes", "COUNTER", "NONE", Tag{"env", "prod"})
+	metric := NewMetric("metricId", "Metric Name", "bytes", "COUNTER", "None", Tag{"env", "prod"})
 	sample, _ := NewSample("metricId", time.Now(), 0.0)
 	element.AddAttribute("cpus", "4")
 	element.AddTag("platform", "kubernetes")
