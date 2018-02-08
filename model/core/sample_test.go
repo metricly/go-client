@@ -1,8 +1,8 @@
 package core
 
 import (
-	"log"
 	"testing"
+	"log"
 )
 
 func TestSample(t *testing.T) {
@@ -19,7 +19,6 @@ func TestSample(t *testing.T) {
 	//when
 	sample, _ := NewSample(test.metricId, test.timestamp, test.value)
 	//then
-	log.Println(sample)
 	if sample.MetricId() != test.metricId {
 		t.Errorf("sample metricId expected: %s, actual: %s", test.metricId, sample.MetricId())
 	}
@@ -35,7 +34,6 @@ func TestSampleWithBlankMetricId(t *testing.T) {
 	//given & when
 	sample, err := NewSample("  ", 1517873901000, 0.0)
 	//then
-	log.Println(sample)
 	if err == nil {
 		t.Errorf("blank metric id should fail on sample %s", sample)
 	}
@@ -73,21 +71,4 @@ func TestSamplesTypeConversions(t *testing.T) {
 			t.Errorf("test %s FAIL, expected: %t, sample: %v, error: %v", name, test.valid, sample, err)
 		}
 	}
-}
-
-func TestSampleMarshalJSON(t *testing.T) {
-	//given
-	test := struct {
-		MetricId string
-		Timestamp int64
-		Value float64
-	} {
-		MetricId: "metricId",
-		Timestamp: 1517873901000,
-		Value: 0.0,
-	}
-	sample, _ := NewSample(test.MetricId, test.Timestamp, test.Value)
-	//when
-	sjson, err := sample.MarshalJSON()
-	log.Println("marshaled sample json:", string(sjson), err)
 }

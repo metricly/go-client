@@ -1,5 +1,5 @@
 package core
 
 type Relation struct {
-	Fqn string
+	Fqn string `json:"fqn"`
 }

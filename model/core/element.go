@@ -29,16 +29,48 @@ func (e *Element) AddAttribute(name, value string) {
 	e.attributes[name] = Attribute{name, value}
 }
 
+func (e *Element) Attributes() []Attribute {
+	attributes := []Attribute{}
+	for _, a := range e.attributes {
+		attributes = append(attributes, a)
+	}
+	return attributes
+}
+
 func (e *Element) AddTag(name, value string) {
 	e.tags[name] = Tag{name, value}
+}
+
+func (e *Element) Tags() []Tag {
+	tags := []Tag{}
+	for _, t := range e.tags {
+		tags = append(tags, t)
+	}
+	return tags
 }
 
 func (e *Element) AddRelation(fqn string) {
 	e.relations[fqn] = Relation{fqn}
 }
 
+func (e *Element) Relations() []Relation {
+	relations := []Relation{}
+	for _, r :=  range e.relations {
+		relations = append(relations, r)
+	}
+	return relations
+}
+
 func (e *Element) AddMetric(metric Metric) {
 	e.metrics[metric.Id] = metric
+}
+
+func (e *Element) Metrics() []Metric {
+	metrics := []Metric{}
+	for _, m := range e.metrics {
+		metrics = append(metrics, m)
+	}
+	return metrics
 }
 
 func (e *Element) AddSample(sample Sample) {
@@ -59,17 +91,29 @@ func (e *Element) Samples() []Sample {
 }
 
 type ElementJSON struct {
-	Id, Name, Type, Location string
-	Samples []Sample
+	Id string `json:"id"`
+	Name string `json:"name"`
+	Type string `json:"type"`
+	Location string `json:"location"`
+	Attributes []Attribute `json:"attributes"`
+	Tags []Tag `json:"tags"`
+	Relations []Relation `json:"relations"`
+	Metrics []Metric `json:"metrics"`
+	Samples []Sample `json:"samples"`
 }
 
 func (e Element) MarshalJSON() ([]byte, error) {
-	ejson := ElementJSON{}
-	ejson.Id = e.Id
-	ejson.Name = e.Name
-	ejson.Type = e.Type
-	ejson.Location = e.Location
-	ejson.Samples = e.Samples()
+	ejson := ElementJSON{
+		e.Id,
+		e.Name,
+		e.Type,
+		e.Location,
+		e.Attributes(),
+		e.Tags(),
+		e.Relations(),
+		e.Metrics(),
+		e.Samples(),
+	}
 
 	return json.Marshal(ejson)
 }
@@ -80,6 +124,18 @@ func (e *Element) UnmarshalJSON(b []byte) error {
 		return err
 	}
 	*e = NewElement(ejson.Id, ejson.Name, ejson.Type, ejson.Location)
+	for _, attribute := range ejson.Attributes {
+		e.AddAttribute(attribute.Name, attribute.Value)
+	}
+	for _, tag := range ejson.Tags {
+		e.AddTag(tag.Name, tag.Value)
+	}
+	for _, relation := range ejson.Relations {
+		e.AddRelation(relation.Fqn)
+	}
+	for _, metric := range ejson.Metrics {
+		e.AddMetric(metric)
+	}
 	for _, sample := range ejson.Samples {
 		e.AddSample(sample)
 	}

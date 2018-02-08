@@ -58,9 +58,9 @@ func (s Sample) String() string {
 }
 
 type SampleJSON struct {
-	MetricId string
-	Timestamp int64
-	Val float64
+	MetricId string `json:"metricId"`
+	Timestamp int64 `json:"timestamp"`
+	Val float64	`json:"val"`
 }
 
 func (s Sample) MarshalJSON() ([]byte, error) {

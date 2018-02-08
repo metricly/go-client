@@ -1,6 +1,6 @@
 package core
 
 type Attribute struct {
-	Name string
-	Value string
+	Name string `json:"name"`
+	Value string `json:"value"`
 }
