@@ -25,8 +25,9 @@ func NewElement(Id, Name, Type, Location string) Element {
 	return e
 }
 
-func (e *Element) AddAttribute(name, value string) {
+func (e *Element) AddAttribute(name, value string) *Element {
 	e.attributes[name] = Attribute{name, value}
+	return e
 }
 
 func (e *Element) Attributes() []Attribute {
@@ -37,8 +38,9 @@ func (e *Element) Attributes() []Attribute {
 	return attributes
 }
 
-func (e *Element) AddTag(name, value string) {
+func (e *Element) AddTag(name, value string) *Element {
 	e.tags[name] = Tag{name, value}
+	return e
 }
 
 func (e *Element) Tags() []Tag {
@@ -49,8 +51,9 @@ func (e *Element) Tags() []Tag {
 	return tags
 }
 
-func (e *Element) AddRelation(fqn string) {
+func (e *Element) AddRelation(fqn string) *Element {
 	e.relations[fqn] = Relation{fqn}
+	return e
 }
 
 func (e *Element) Relations() []Relation {
@@ -61,8 +64,9 @@ func (e *Element) Relations() []Relation {
 	return relations
 }
 
-func (e *Element) AddMetric(metric Metric) {
+func (e *Element) AddMetric(metric Metric) *Element {
 	e.metrics[metric.Id] = metric
+	return e
 }
 
 func (e *Element) Metrics() []Metric {
@@ -73,13 +77,14 @@ func (e *Element) Metrics() []Metric {
 	return metrics
 }
 
-func (e *Element) AddSample(sample Sample) {
+func (e *Element) AddSample(sample Sample) *Element {
 	e.samples[sample.Key()] = sample
 	if _, found := e.metrics[sample.metricId]; !found {
 		m := Metric{}
 		m.Id = sample.metricId
 		e.metrics[sample.metricId] = m
 	}
+	return e
 }
 
 func (e *Element) Samples() []Sample {

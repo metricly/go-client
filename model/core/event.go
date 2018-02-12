@@ -27,8 +27,9 @@ func NewEvent(Source, Title, Type string, timestamp interface{}, message Element
 	return e
 }
 
-func (e *Event) AddTag(name, value string) {
+func (e *Event) AddTag(name, value string) *Event {
 	e.tags[name] = Tag{name, value}
+	return e
 }
 
 func (e *Event) Tags() []Tag {

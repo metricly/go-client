@@ -15,11 +15,7 @@ func TestClientPostElement(t *testing.T) {
 	element := core.NewElement("elementId", "Element Name", "SERVER", "use1a")
 	metric := core.NewMetric("metricId", "Metric Name", "bytes", "COUNTER", "None", core.Tag{"env", "prod"})
 	sample, _ := core.NewSample("metricId", time.Now(), 0.0)
-	element.AddAttribute("cpus", "4")
-	element.AddTag("platform", "kubernetes")
-	element.AddRelation("relatedElementId")
-	element.AddMetric(metric)
-	element.AddSample(sample)
+	element.AddAttribute("cpus", "4").AddTag("platform", "kubernetes").AddRelation("relatedElementId").AddMetric(metric).AddSample(sample)
 	elements := []core.Element{element}
 	//when & then
 	if err := client.PostElement(elements); err != nil {
