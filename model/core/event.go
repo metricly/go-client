@@ -10,7 +10,7 @@ type Event struct {
 }
 
 type ElementMessage struct {
-	ElementId string
+	ElementId string `json:"elementId"`
 	Level string `json:"level"`
 	Message string `json:"message"`
 }
