@@ -6,6 +6,16 @@ To view package documentation, run the following `godoc` command in the cloned r
 ```shell
 godoc -goroot=. -http=:8080
 ```
+## Unit Tests
+* Add project repo to $GOPATH
+```shell
+export GOPATH={PATH-TO}/metricly-client-go
+```
+* Run all unit tests
+```shell
+go test -v -tags unit ./...
+```
+
 * [api doc](http://localhost:8080/pkg/api)
 * [core model doc](http://localhost:8080/pkg/model/core)
 
