@@ -11,6 +11,7 @@ import (
 	"strconv"
 )
 
+//Client is a Rest API Client for ingesting Elements, Events and Checks to Metricly Cloud, use its Construction function NewClient to create a Client
 type Client struct {
 	elementIngestEndpoint string
 	eventIngestEndpoint string
@@ -18,6 +19,7 @@ type Client struct {
 	client *http.Client
 }
 
+//NewClient constructs a Client given its ingest URL and apiKey
 func NewClient(url, apiKey string) Client {
 	elementIngestEndpoint := strings.TrimSuffix(url, "/") + "/" + apiKey
 	eventIngestEndpoint := strings.Replace(elementIngestEndpoint, "/ingest/", "/ingest/events/", 1)
@@ -30,20 +32,23 @@ func NewClient(url, apiKey string) Client {
 	}
 }
 
-func (c *Client) PostElement(elements []core.Element) error {
+//PostElement posts a slice of Elements to cloud ingest API
+func (c *Client) PostElements(elements []core.Element) error {
 	payload, _ := json.Marshal(elements)
 	req, _ := http.NewRequest("POST", c.elementIngestEndpoint, bytes.NewReader(payload))
 	req.Header.Set("Content-Type", "application/json; charset=UTF-8")
 	return postPayload(c, req, "element")
 }
 
+//PostCheck posts a check to cloud ingest API
 func (c *Client) PostCheck(check core.Check) error {
 	checkUrl := strings.Join([]string{c.checkIngestEndpoint, check.Name, check.ElementId, strconv.Itoa(check.TTL)}, "/")
 	req, _ := http.NewRequest("POST", checkUrl, bytes.NewBuffer([]byte{}))
 	return postPayload(c, req, "check")
 }
 
-func (c *Client) PostEvent(events []core.Event) error {
+//PostEvent posts a slice of Events to cloud ingest API
+func (c *Client) PostEvents(events []core.Event) error {
 	payload, _ := json.Marshal(events)
 	req, _ := http.NewRequest("POST", c.eventIngestEndpoint, bytes.NewReader(payload))
 	req.Header.Set("Content-Type", "application/json; charset=UTF-8")

@@ -6,7 +6,6 @@ import (
 	"testing"
 	"time"
 	"../model/core"
-	"log"
 )
 
 func TestClientPostElement(t *testing.T) {
@@ -18,8 +17,7 @@ func TestClientPostElement(t *testing.T) {
 	element.AddAttribute("cpus", "4").AddTag("platform", "kubernetes").AddRelation("relatedElementId").AddMetric(metric).AddSample(sample)
 	elements := []core.Element{element}
 	//when & then
-	if err := client.PostElement(elements); err != nil {
-		log.Println("failed to post elements to test endpoint with error: ", err)
+	if err := client.PostElements(elements); err != nil {
 		t.Errorf("failed to post elements to test endpoint")
 	}
 }
@@ -30,8 +28,7 @@ func TestClientPostEvent(t *testing.T) {
 	event := core.NewEvent("metric go client", "test post event", "INFO", time.Now(), core.ElementMessage{"elementId", "INFO", "test"})
 	event.AddTag("platform", "kubernetes")
 	//when & then
-	if err := client.PostEvent([]core.Event{event}); err != nil {
-		log.Println("failed to post events to test endpoint with error: ", err)
+	if err := client.PostEvents([]core.Event{event}); err != nil {
 		t.Errorf("failed to post events to test endpoint")
 	}
 }
@@ -42,7 +39,6 @@ func TestClientPostCheck(t *testing.T) {
 	check := core.Check{"heartbeat", "elementId", 120}
 	//when & then
 	if err := client.PostCheck(check); err != nil {
-		log.Println("failed to post check to test endpoint with error: ", err)
 		t.Errorf("failed to post check to test endpoint")
 	}
 }

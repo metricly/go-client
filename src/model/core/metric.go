@@ -2,14 +2,17 @@ package core
 
 import "encoding/json"
 
+//Metric is a quantifiable measurement that is associated with an Element, use its Construction function NewMetric(...) to create a Metric
+//	SparseDataStrategy value is one of {"None", "ReplaceWithZero", "ReplaceWithLast", "ReplaceWithHistoricalMax", "ReplaceWithHistoricalMin"}
 type Metric struct {
 	Id, Name, Unit, Type, SparseDataStrategy string
 	tags map[string]Tag
 }
 
-func NewMetric(Id, Name, Unit, Type, SparseDataStrategy string, tags ...Tag) Metric {
+//NewMetric constructs a Metric given its Id, Name, Unit, Type, SparseDataStrategy and optional Tags
+func NewMetric(id, name, unit, mtype, sparseDataStrategy string, tags ...Tag) Metric {
 	m := Metric{}
-	m.Id, m.Name, m.Unit, m.Type, m.SparseDataStrategy = Id, Name, Unit, Type, SparseDataStrategy
+	m.Id, m.Name, m.Unit, m.Type, m.SparseDataStrategy = id, name, unit, mtype, sparseDataStrategy
 	m.tags = map[string]Tag{}
 	for _, tag := range tags {
 		m.tags[tag.Name] = tag
@@ -17,10 +20,13 @@ func NewMetric(Id, Name, Unit, Type, SparseDataStrategy string, tags ...Tag) Met
 	return m
 }
 
-func (m *Metric) AddTag(name, value string) {
+//Add a Tag to Metric
+func (m *Metric) AddTag(name, value string) *Metric {
 	m.tags[name] = Tag{name, value}
+	return m
 }
 
+//Get all Tags of a Metric
 func (m *Metric) Tags() []Tag {
 	tags := []Tag{}
 	for _, t := range m.tags {
@@ -29,7 +35,7 @@ func (m *Metric) Tags() []Tag {
 	return tags
 }
 
-type MetricJSON struct {
+type metricJSON struct {
 	Id string `json:"id"`
 	Name string `json:"name"`
 	Unit string `json:"unit"`
@@ -39,7 +45,7 @@ type MetricJSON struct {
 }
 
 func (m Metric) MarshalJSON() ([]byte, error) {
-	mjson := MetricJSON{
+	mjson := metricJSON{
 		m.Id,
 		m.Name,
 		m.Unit,
@@ -51,7 +57,7 @@ func (m Metric) MarshalJSON() ([]byte, error) {
 }
 
 func (m *Metric)  UnmarshalJSON(b []byte) error {
-	var mjson MetricJSON
+	var mjson metricJSON
 	if err := json.Unmarshal(b, &mjson); err != nil {
 		return err
 	}

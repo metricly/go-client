@@ -2,34 +2,38 @@ package core
 
 import "encoding/json"
 
+//Element is a physical entity such as a server or a logical component such as a transaction, use its Construction function NewElement to create an Element
 type Element struct {
 	Id, Name, Type, Location string
 	attributes map[string]Attribute
 	tags map[string]Tag
 	relations map[string]Relation
 	metrics map[string]Metric
-	samples map[SampleKey]Sample
+	samples map[sampleKey]Sample
 }
 
-func NewElement(Id, Name, Type, Location string) Element {
+//NewElement constructs an Element given its Id, Name, Type and Location
+func NewElement(id, name, etype, location string) Element {
 	e := Element{}
-	e.Id = Id
-	e.Name = Name
-	e.Type = Type
-	e.Location = Location
+	e.Id = id
+	e.Name = name
+	e.Type = etype
+	e.Location = location
 	e.attributes = map[string]Attribute{}
 	e.tags = map[string]Tag{}
 	e.relations = map[string]Relation{}
 	e.metrics = map[string]Metric{}
-	e.samples = map[SampleKey]Sample{}
+	e.samples = map[sampleKey]Sample{}
 	return e
 }
 
+//Add an Attribute to Element
 func (e *Element) AddAttribute(name, value string) *Element {
 	e.attributes[name] = Attribute{name, value}
 	return e
 }
 
+//Get all Attributes of an Element
 func (e *Element) Attributes() []Attribute {
 	attributes := []Attribute{}
 	for _, a := range e.attributes {
@@ -38,11 +42,13 @@ func (e *Element) Attributes() []Attribute {
 	return attributes
 }
 
+//Add a Tag to Element
 func (e *Element) AddTag(name, value string) *Element {
 	e.tags[name] = Tag{name, value}
 	return e
 }
 
+//Get all Tags of an Element
 func (e *Element) Tags() []Tag {
 	tags := []Tag{}
 	for _, t := range e.tags {
@@ -51,11 +57,13 @@ func (e *Element) Tags() []Tag {
 	return tags
 }
 
+//Add a Relation to Element
 func (e *Element) AddRelation(fqn string) *Element {
 	e.relations[fqn] = Relation{fqn}
 	return e
 }
 
+//Get all Relations of an Element
 func (e *Element) Relations() []Relation {
 	relations := []Relation{}
 	for _, r :=  range e.relations {
@@ -64,11 +72,13 @@ func (e *Element) Relations() []Relation {
 	return relations
 }
 
+//Add a Metric to Element
 func (e *Element) AddMetric(metric Metric) *Element {
 	e.metrics[metric.Id] = metric
 	return e
 }
 
+//Get all Metrics of an Element
 func (e *Element) Metrics() []Metric {
 	metrics := []Metric{}
 	for _, m := range e.metrics {
@@ -77,8 +87,9 @@ func (e *Element) Metrics() []Metric {
 	return metrics
 }
 
+//Add a Sample to Element
 func (e *Element) AddSample(sample Sample) *Element {
-	e.samples[sample.Key()] = sample
+	e.samples[sample.key()] = sample
 	if _, found := e.metrics[sample.metricId]; !found {
 		m := Metric{}
 		m.Id = sample.metricId
@@ -87,6 +98,7 @@ func (e *Element) AddSample(sample Sample) *Element {
 	return e
 }
 
+//Get all Samples of an Element
 func (e *Element) Samples() []Sample {
 	samples := []Sample{}
 	for _, s := range e.samples {
@@ -95,7 +107,7 @@ func (e *Element) Samples() []Sample {
 	return samples
 }
 
-type ElementJSON struct {
+type elementJSON struct {
 	Id string `json:"id"`
 	Name string `json:"name"`
 	Type string `json:"type"`
@@ -108,7 +120,7 @@ type ElementJSON struct {
 }
 
 func (e Element) MarshalJSON() ([]byte, error) {
-	ejson := ElementJSON{
+	ejson := elementJSON{
 		e.Id,
 		e.Name,
 		e.Type,
@@ -124,7 +136,7 @@ func (e Element) MarshalJSON() ([]byte, error) {
 }
 
 func (e *Element) UnmarshalJSON(b []byte) error {
-	var ejson ElementJSON
+	var ejson elementJSON
 	if err := json.Unmarshal(b, &ejson); err != nil {
 		return err
 	}

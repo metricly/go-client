@@ -3,7 +3,6 @@ package core
 import (
 	"testing"
 	"time"
-	"log"
 )
 
 func TestAddElementSampleAddingItsMetric(t *testing.T) {
@@ -52,7 +51,6 @@ func TestElementMarshalJSON(t *testing.T) {
 	//when
 	//marshal
 	ejson, _ := element.MarshalJSON()
-	log.Println("marshaled element json: ", string(ejson))
 	//unmarshal
 	var e Element
 	e.UnmarshalJSON(ejson)

@@ -2,6 +2,7 @@ package core
 
 import "encoding/json"
 
+//Event represents an informational message that is associated with an Element at a point of time, use its Construction function NewEvent to create an Event
 type Event struct {
 	Source, Title, Type string
 	timestamp Timestamp
@@ -9,16 +10,19 @@ type Event struct {
 	data ElementMessage
 }
 
+//ElementMessage represents an informational message on an Element
+//	Level value is one of {"INFO", "WARNING", "CRITICAL"}
 type ElementMessage struct {
 	ElementId string `json:"elementId"`
 	Level string `json:"level"`
 	Message string `json:"message"`
 }
 
-func NewEvent(Source, Title, Type string, timestamp interface{}, message ElementMessage, tags ...Tag) Event {
+//NewEvent constructs an Event given its Source, Title, Type, timestamp, ElementMessage and optional Tags
+func NewEvent(source, title, etype string, timestamp interface{}, message ElementMessage, tags ...Tag) Event {
 	e := Event{}
 	ts, _ := TimestampValue(timestamp)
-	e.Source, e.Title, e.Type, e.timestamp = Source, Title, Type, ts
+	e.Source, e.Title, e.Type, e.timestamp = source, title, etype, ts
 	e.data = message
 	e.tags = map[string]Tag{}
 	for _, tag := range tags {
@@ -27,11 +31,13 @@ func NewEvent(Source, Title, Type string, timestamp interface{}, message Element
 	return e
 }
 
+//Add a Tag to Event
 func (e *Event) AddTag(name, value string) *Event {
 	e.tags[name] = Tag{name, value}
 	return e
 }
 
+//Get all Tags of an Event
 func (e *Event) Tags() []Tag {
 	tags := []Tag{}
 	for _, t := range e.tags {
@@ -40,7 +46,7 @@ func (e *Event) Tags() []Tag {
 	return tags
 }
 
-type EventJSON struct {
+type eventJSON struct {
 	Source string `json:"source"`
 	Title string `json:"title"`
 	Type string `json:"type"`
@@ -50,7 +56,7 @@ type EventJSON struct {
 }
 
 func (e Event) MarshalJSON() ([]byte, error) {
-	ejson := EventJSON{
+	ejson := eventJSON{
 		e.Source,
 		e.Title,
 		e.Type,

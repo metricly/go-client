@@ -8,6 +8,8 @@ import (
 
 type Number float64
 
+//NumericValue converts/casts a supported value type to a Number or reports an Error, supported types are:
+//	{float64, float32, int64, int32, int16, int8, int, string}
 func NumericValue(value interface{}) (Number, error) {
 	amount, err := parseNumericValue(value)
 	return Number(amount), err

@@ -6,17 +6,19 @@ import (
 	"encoding/json"
 )
 
+//Sample represents a single data point for a Metric, use its Construction function NewSample to create a Sample
 type Sample struct {
 	metricId string
 	timestamp Timestamp
 	val Number
 }
 
-type SampleKey struct {
+type sampleKey struct {
 	metricId string
 	timestamp Timestamp
 }
 
+//NewSample constructs a Sample given its metricId, timestamp and value or reports an Error
 func NewSample(metricId string, timestamp interface{}, value interface{}) (Sample, error) {
 	var errors []string
 	if len(strings.TrimSpace(metricId)) == 0 {
@@ -36,35 +38,37 @@ func NewSample(metricId string, timestamp interface{}, value interface{}) (Sampl
 	return Sample{metricId, ts, val}, nil
 }
 
-
+//returns sample metricId
 func (s *Sample) MetricId() string {
 	return s.metricId
 }
 
+//returns sample timestamp
 func (s *Sample) Timestamp() int64 {
 	return int64(s.timestamp)
 }
 
+//returns sample value
 func (s *Sample) Val() float64 {
 	return float64(s.val)
 }
 
-func (s *Sample) Key() SampleKey {
-	return SampleKey{s.metricId, s.timestamp}
+func (s *Sample) key() sampleKey {
+	return sampleKey{s.metricId, s.timestamp}
 }
 
 func (s Sample) String() string {
 	return fmt.Sprintf("%s => %.3f @[%d]", s.metricId, s.val, s.timestamp)
 }
 
-type SampleJSON struct {
+type sampleJSON struct {
 	MetricId string `json:"metricId"`
 	Timestamp int64 `json:"timestamp"`
 	Val float64	`json:"val"`
 }
 
 func (s Sample) MarshalJSON() ([]byte, error) {
-	sjson := SampleJSON {
+	sjson := sampleJSON{
 		s.MetricId(),
 		s.Timestamp(),
 		s.Val(),
@@ -73,7 +77,7 @@ func (s Sample) MarshalJSON() ([]byte, error) {
 }
 
 func (s *Sample) UnmarshalJSON(b []byte) error {
-	var sjson SampleJSON
+	var sjson sampleJSON
 	if err := json.Unmarshal(b, &sjson); err != nil {
 		return err
 	}

@@ -2,7 +2,6 @@ package core
 
 import (
 	"testing"
-	"log"
 )
 
 func TestSample(t *testing.T) {
@@ -63,11 +62,7 @@ func TestSamplesTypeConversions(t *testing.T) {
 	//when & then
 	for name, test := range tests {
 		sample, err := NewSample(test.metricId, test.timestamp, test.value)
-		if err == nil && test.valid == true {
-			log.Println("positive test \"" + name + "\" OK", sample)
-		} else if err != nil && test.valid == false {
-			log.Println("negative test \"" + name + "\" OK", sample, err)
-		} else {
+		if err == nil && test.valid == false ||  err != nil && test.valid == true {
 			t.Errorf("test %s FAIL, expected: %t, sample: %v, error: %v", name, test.valid, sample, err)
 		}
 	}
