@@ -1,5 +1,5 @@
 # Overview
-The Metrilcy Go Client allows you to push data to [Metricly](https://www.metricly.com) using [Go](https://golang.org).
+The Metricly Go Client allows you to push data to [Metricly](https://www.metricly.com) using [Go](https://golang.org).
 
 ## Package Documentation
 To view package documentation, run the following `godoc` command in the cloned repo:
