@@ -7,33 +7,33 @@ Types of Contributions
 ------------------------------
  
 ### Reporting Bugs
-Report bugs on [the issues page](https://github.com/Metricly/go-client/issues).
+Report bugs on [the issues page](https://github.com/metricly/go-client/issues).
 With your bug report, please include:
 - Your operating system name and version.
 - Any details about your local setup that might be helpful in troubleshooting the issue.
 - Detailed steps to reproduce the bug.
  
 ### Fixing bugs
-Find bugs at [the issues page](https://github.com/Metricly/go-client/issues). Anything tagged with
+Find bugs at [the issues page](https://github.com/metricly/go-client/issues). Anything tagged with
 "bug" is open to be fixed. 
 With your fix, please include:
 - The issue number
 - A detailed commit message
  
 ### Implementing Features
-Find features at [the issues page](https://github.com/Metricly/go-client/issues). Anything tagged
+Find features at [the issues page](https://github.com/metricly/go-client/issues). Anything tagged
 with "feature" is open to be implemented.
 With your feature, please include:
 - The issue number
 - A detailed commit message
  
 ### Writing Documentation
-The Metricly Go Client can always use documentation (more documentation is always better!). 
+The metricly Go Client can always use documentation (more documentation is always better!). 
 Please document your features or usage as part of the official docs, in docstrings, 
 in blog posts, articles, or wherever you see fit.
  
 ### Submitting Feedback
-File an issue at [the issues page](https://github.com/Metricly/go-client/issues).
+File an issue at [the issues page](https://github.com/metricly/go-client/issues).
 If you are proposing a feature:
 - Explain how it would work in detail
 - Keep the scope as narrow as possible to make it easier to implement

@@ -1,7 +1,7 @@
 package api
 
 import (
-	"../model/core"
+	"model/core"
 	"net/http"
 	"strings"
 	"encoding/json"

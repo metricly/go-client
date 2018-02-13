@@ -5,7 +5,7 @@ package api
 import (
 	"testing"
 	"time"
-	"../model/core"
+	"model/core"
 )
 
 func TestClientPostElement(t *testing.T) {
