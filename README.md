@@ -9,7 +9,7 @@ godoc -goroot=. -http=:8080
 ## Unit Tests
 * Add project repo to $GOPATH
 ```shell
-export GOPATH={PATH-TO}/metricly-client-go
+export GOPATH={PATH-TO}/go-client
 ```
 * Run all unit tests
 ```shell
