@@ -5,11 +5,11 @@ import "encoding/json"
 //Element is a physical entity such as a server or a logical component such as a transaction, use its Construction function NewElement to create an Element
 type Element struct {
 	Id, Name, Type, Location string
-	attributes map[string]Attribute
-	tags map[string]Tag
-	relations map[string]Relation
-	metrics map[string]Metric
-	samples map[sampleKey]Sample
+	attributes               map[string]Attribute
+	tags                     map[string]Tag
+	relations                map[string]Relation
+	metrics                  map[string]Metric
+	samples                  map[sampleKey]Sample
 }
 
 //NewElement constructs an Element given its Id, Name, Type and Location
@@ -66,7 +66,7 @@ func (e *Element) AddRelation(fqn string) *Element {
 //Get all Relations of an Element
 func (e *Element) Relations() []Relation {
 	relations := []Relation{}
-	for _, r :=  range e.relations {
+	for _, r := range e.relations {
 		relations = append(relations, r)
 	}
 	return relations
@@ -108,15 +108,15 @@ func (e *Element) Samples() []Sample {
 }
 
 type elementJSON struct {
-	Id string `json:"id"`
-	Name string `json:"name"`
-	Type string `json:"type"`
-	Location string `json:"location"`
+	Id         string      `json:"id"`
+	Name       string      `json:"name"`
+	Type       string      `json:"type"`
+	Location   string      `json:"location"`
 	Attributes []Attribute `json:"attributes"`
-	Tags []Tag `json:"tags"`
-	Relations []Relation `json:"relations"`
-	Metrics []Metric `json:"metrics"`
-	Samples []Sample `json:"samples"`
+	Tags       []Tag       `json:"tags"`
+	Relations  []Relation  `json:"relations"`
+	Metrics    []Metric    `json:"metrics"`
+	Samples    []Sample    `json:"samples"`
 }
 
 func (e Element) MarshalJSON() ([]byte, error) {

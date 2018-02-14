@@ -5,17 +5,17 @@ import "encoding/json"
 //Event represents an informational message that is associated with an Element at a point of time, use its Construction function NewEvent to create an Event
 type Event struct {
 	Source, Title, Type string
-	timestamp Timestamp
-	tags map[string]Tag
-	data ElementMessage
+	timestamp           Timestamp
+	tags                map[string]Tag
+	data                ElementMessage
 }
 
 //ElementMessage represents an informational message on an Element
 //	Level value is one of {"INFO", "WARNING", "CRITICAL"}
 type ElementMessage struct {
 	ElementId string `json:"elementId"`
-	Level string `json:"level"`
-	Message string `json:"message"`
+	Level     string `json:"level"`
+	Message   string `json:"message"`
 }
 
 //NewEvent constructs an Event given its Source, Title, Type, timestamp, ElementMessage and optional Tags
@@ -47,12 +47,12 @@ func (e *Event) Tags() []Tag {
 }
 
 type eventJSON struct {
-	Source string `json:"source"`
-	Title string `json:"title"`
-	Type string `json:"type"`
-	Timestamp int64 `json:"timestamp"`
-	Tags []Tag `json:"tags"`
-	Data ElementMessage `json:"data"`
+	Source    string         `json:"source"`
+	Title     string         `json:"title"`
+	Type      string         `json:"type"`
+	Timestamp int64          `json:"timestamp"`
+	Tags      []Tag          `json:"tags"`
+	Data      ElementMessage `json:"data"`
 }
 
 func (e Event) MarshalJSON() ([]byte, error) {

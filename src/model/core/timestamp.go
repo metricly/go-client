@@ -1,9 +1,9 @@
 package core
 
 import (
-	"time"
 	"fmt"
 	"math"
+	"time"
 )
 
 //Timestamp is number of milliseconds since epoch
@@ -11,7 +11,7 @@ type Timestamp int64
 
 //TimestampValue converts/casts a supported value type to Timestamp or reports an Error, supported types are:
 //	{int64, int, time.RFC3339 string}
-func TimestampValue (timestamp interface{}) (Timestamp, error) {
+func TimestampValue(timestamp interface{}) (Timestamp, error) {
 	epoch, err := parseTimestampValue(timestamp)
 	return Timestamp(epoch), err
 }

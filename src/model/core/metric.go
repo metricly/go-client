@@ -6,7 +6,7 @@ import "encoding/json"
 //	SparseDataStrategy value is one of {"None", "ReplaceWithZero", "ReplaceWithLast", "ReplaceWithHistoricalMax", "ReplaceWithHistoricalMin"}
 type Metric struct {
 	Id, Name, Unit, Type, SparseDataStrategy string
-	tags map[string]Tag
+	tags                                     map[string]Tag
 }
 
 //NewMetric constructs a Metric given its Id, Name, Unit, Type, SparseDataStrategy and optional Tags
@@ -36,12 +36,12 @@ func (m *Metric) Tags() []Tag {
 }
 
 type metricJSON struct {
-	Id string `json:"id"`
-	Name string `json:"name"`
-	Unit string `json:"unit"`
-	Type string `json:"type"`
+	Id                 string `json:"id"`
+	Name               string `json:"name"`
+	Unit               string `json:"unit"`
+	Type               string `json:"type"`
 	SparseDataStrategy string `json:"sparseDataStrategy"`
-	Tags []Tag `json:"tags"`
+	Tags               []Tag  `json:"tags"`
 }
 
 func (m Metric) MarshalJSON() ([]byte, error) {
@@ -56,7 +56,7 @@ func (m Metric) MarshalJSON() ([]byte, error) {
 	return json.Marshal(mjson)
 }
 
-func (m *Metric)  UnmarshalJSON(b []byte) error {
+func (m *Metric) UnmarshalJSON(b []byte) error {
 	var mjson metricJSON
 	if err := json.Unmarshal(b, &mjson); err != nil {
 		return err

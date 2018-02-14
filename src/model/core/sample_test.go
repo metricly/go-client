@@ -7,13 +7,13 @@ import (
 func TestSample(t *testing.T) {
 	//given
 	test := struct {
-		metricId string
+		metricId  string
 		timestamp int64
-		value float64
-	} {
-		metricId: "metricId",
+		value     float64
+	}{
+		metricId:  "metricId",
 		timestamp: 1517873901000,
-		value: 0.0,
+		value:     0.0,
 	}
 	//when
 	sample, _ := NewSample(test.metricId, test.timestamp, test.value)
@@ -40,29 +40,29 @@ func TestSampleWithBlankMetricId(t *testing.T) {
 
 func TestSamplesTypeConversions(t *testing.T) {
 	//given
-	tests := map[string] struct {
-		metricId string
+	tests := map[string]struct {
+		metricId  string
 		timestamp interface{}
-		value interface{}
-		valid bool
-	} {
+		value     interface{}
+		valid     bool
+	}{
 		"string sample with epoch-milliseconds timestamp": {
-			metricId: "metricId",
+			metricId:  "metricId",
 			timestamp: 1517873901000,
-			value: "0",
-			valid: true,
+			value:     "0",
+			valid:     true,
 		},
 		"int sample with RFC3339 timestamp": {
-			metricId: "metricId",
+			metricId:  "metricId",
 			timestamp: "1970-01-01T00:00:00Z",
-			value: 0,
-			valid: true,
+			value:     0,
+			valid:     true,
 		},
 	}
 	//when & then
 	for name, test := range tests {
 		sample, err := NewSample(test.metricId, test.timestamp, test.value)
-		if err == nil && test.valid == false ||  err != nil && test.valid == true {
+		if err == nil && test.valid == false || err != nil && test.valid == true {
 			t.Errorf("test %s FAIL, expected: %t, sample: %v, error: %v", name, test.valid, sample, err)
 		}
 	}

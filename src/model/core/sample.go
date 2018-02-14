@@ -1,20 +1,20 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
-	"encoding/json"
 )
 
 //Sample represents a single data point for a Metric, use its Construction function NewSample to create a Sample
 type Sample struct {
-	metricId string
+	metricId  string
 	timestamp Timestamp
-	val Number
+	val       Number
 }
 
 type sampleKey struct {
-	metricId string
+	metricId  string
 	timestamp Timestamp
 }
 
@@ -62,9 +62,9 @@ func (s Sample) String() string {
 }
 
 type sampleJSON struct {
-	MetricId string `json:"metricId"`
-	Timestamp int64 `json:"timestamp"`
-	Val float64	`json:"val"`
+	MetricId  string  `json:"metricId"`
+	Timestamp int64   `json:"timestamp"`
+	Val       float64 `json:"val"`
 }
 
 func (s Sample) MarshalJSON() ([]byte, error) {

@@ -6,11 +6,11 @@ func TestMetric(t *testing.T) {
 	//given
 	test := struct {
 		Id, Name, Unit, Type, SparseDataStrategy string
-	} {
-		Id: "cpu.percent",
-		Name: "CPU Percent",
-		Unit: "%",
-		Type: "COUNTER",
+	}{
+		Id:                 "cpu.percent",
+		Name:               "CPU Percent",
+		Unit:               "%",
+		Type:               "COUNTER",
 		SparseDataStrategy: "None",
 	}
 	//when

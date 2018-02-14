@@ -1,22 +1,22 @@
 package api
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"model/core"
 	"net/http"
-	"strings"
-	"encoding/json"
-	"bytes"
-	"io/ioutil"
-	"fmt"
 	"strconv"
+	"strings"
 )
 
 //Client is a Rest API Client for ingesting Elements, Events and Checks to Metricly Cloud, use its Construction function NewClient to create a Client
 type Client struct {
 	elementIngestEndpoint string
-	eventIngestEndpoint string
-	checkIngestEndpoint string
-	client *http.Client
+	eventIngestEndpoint   string
+	checkIngestEndpoint   string
+	client                *http.Client
 }
 
 //NewClient constructs a Client given its ingest URL and apiKey
@@ -56,7 +56,7 @@ func (c *Client) PostEvents(events []core.Event) error {
 }
 
 func postPayload(c *Client, request *http.Request, entity string) error {
-	resp, err := c.client.Do(request);
+	resp, err := c.client.Do(request)
 	if err != nil {
 		return err
 	} else if resp.StatusCode != http.StatusAccepted {

@@ -1,8 +1,8 @@
 package core
 
 import (
-	"math"
 	"fmt"
+	"math"
 	"strconv"
 )
 
