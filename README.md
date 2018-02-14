@@ -22,7 +22,7 @@ go test -v -tags unit ./...
 ## Examples
 ### Create a Client
 ```go
-client := api.NewClient("https://api.app.netuitive.com/ingest", "43b6e3843e5db961fbc38cc24e796512")
+client := api.NewClient("https://api.app.netuitive.com/ingest", "{api-key}")
 ````
 
 ### Create and Post Element
@@ -37,7 +37,7 @@ client.PostElements(elements)
 
 ## Create and Post Event
 ```go
-event := core.NewEvent("metric go client", "test post event", "INFO", time.Now(), core.ElementMessage{"elementId", "INFO", "test"})
+event := core.NewEvent("go client", "test post event", "INFO", time.Now(), core.ElementMessage{"elementId", "INFO", "test"})
 event.AddTag("platform", "kubernetes")
 client.PostEvents([]core.Event{event})
 ````
