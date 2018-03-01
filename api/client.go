@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"model/core"
+	"github.com/metricly/go-client/model/core"
 	"net/http"
 	"strconv"
 	"strings"

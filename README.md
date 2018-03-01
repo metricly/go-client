@@ -13,13 +13,10 @@ godoc -http=:8080
 * [core model doc](http://localhost:8080/pkg/github.com/metricly/go-client/model/core/)
 
 ## Unit Tests
-* Add project repo to $GOPATH
+* Run model core unit tests
 ```shell
-export GOPATH={PATH-TO}/go-client
-```
-* Run all unit tests
-```shell
-go test -v -tags unit ./...
+go test -v -tags unit github.com/metricly/go-client/model/core
+go test -v -tags unit github.com/metricly/go-client/api
 ```
 
 ## Examples

@@ -3,7 +3,7 @@
 package api
 
 import (
-	"model/core"
+	"github.com/metricly/go-client/model/core"
 	"testing"
 	"time"
 )
