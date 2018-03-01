@@ -2,10 +2,16 @@
 The Metricly Go Client allows you to push data to [Metricly](https://www.metricly.com) using [Go](https://golang.org).
 
 ## Package Documentation
+```shell
+go get github.com/metricly/go-client
+```
 To view package documentation, run the following `godoc` command in the cloned repo:
 ```shell
-godoc -goroot=. -http=:8080
+godoc -http=:8080
 ```
+* [api doc](http://localhost:8080/pkg/github.com/metricly/go-client/api/)
+* [core model doc](http://localhost:8080/pkg/github.com/metricly/go-client/model/core/)
+
 ## Unit Tests
 * Add project repo to $GOPATH
 ```shell
@@ -16,14 +22,11 @@ export GOPATH={PATH-TO}/go-client
 go test -v -tags unit ./...
 ```
 
-* [api doc](http://localhost:8080/pkg/api)
-* [core model doc](http://localhost:8080/pkg/model/core)
-
 ## Examples
 ### Create a Client
 ```go
 client := api.NewClient("https://api.app.netuitive.com/ingest", "{api-key}")
-````
+```
 
 ### Create and Post Element
 ```go
