@@ -38,6 +38,34 @@ func TestAddElementSampleWontOverrideExistingMetric(t *testing.T) {
 	}
 }
 
+func TestElementAttribute(t *testing.T) {
+	//given
+	element := NewElement("elementId", "Element Name", "SERVER", "use1a")
+	element.AddAttribute("cpus", "4")
+	//then
+	if attribute, ok := element.Attribute("cpus"); !ok {
+		t.Errorf("can't retrieve element tag by its name")
+	} else {
+		if attribute.Value != "4" {
+			t.Errorf("attribute's value is not the same as its expected value: '4'")
+		}
+	}
+}
+
+func TestElementTag(t *testing.T) {
+	//given
+	element := NewElement("elementId", "Element Name", "SERVER", "use1a")
+	element.AddTag("platform", "kubernetes")
+	//then
+	if tag, ok := element.Tag("platform"); !ok {
+		t.Errorf("can't retrieve element tag by its name")
+	} else {
+		if tag.Value != "kubernetes" {
+			t.Errorf("tag's value is not the same as its expected value: 'kubernetes'")
+		}
+	}
+}
+
 func TestElementMarshalJSON(t *testing.T) {
 	//given
 	element := NewElement("elementId", "Element Name", "SERVER", "use1a")

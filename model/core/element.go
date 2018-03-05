@@ -42,6 +42,11 @@ func (e *Element) Attributes() []Attribute {
 	return attributes
 }
 
+func (e *Element) Attribute(name string) (Attribute, bool) {
+	attribute, ok := e.attributes[name]
+	return attribute, ok
+}
+
 //Add a Tag to Element
 func (e *Element) AddTag(name, value string) *Element {
 	e.tags[name] = Tag{name, value}
@@ -55,6 +60,12 @@ func (e *Element) Tags() []Tag {
 		tags = append(tags, t)
 	}
 	return tags
+}
+
+//Get a Tag by its name
+func (e *Element) Tag(name string) (Tag, bool) {
+	tag, ok := e.tags[name]
+	return tag, ok
 }
 
 //Add a Relation to Element
