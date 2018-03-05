@@ -93,6 +93,7 @@ func (e *Element) AddSample(sample Sample) *Element {
 	if _, found := e.metrics[sample.metricId]; !found {
 		m := Metric{}
 		m.Id = sample.metricId
+		m.SparseDataStrategy = "None"
 		e.metrics[sample.metricId] = m
 	}
 	return e
