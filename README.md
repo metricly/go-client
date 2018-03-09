@@ -22,7 +22,7 @@ go test -v -tags unit github.com/metricly/go-client/api
 ## Examples
 ### Create a Client
 ```go
-client := api.NewClient("https://api.app.netuitive.com/ingest", "{api-key}")
+client := api.NewClient("https://api.app.metricly.com/ingest", "{api-key}")
 ```
 
 ### Create and Post Element
